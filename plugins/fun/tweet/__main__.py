@@ -110,18 +110,16 @@ async def carry_minati(msg: Message):
 async def tweet(msg: Message):
     """ Create Tweets of given celebrities """
     username, text = msg.extract_user_and_text
-    await msg.err(text) # debug 
     if isinstance(username, int):
         usrdata = await msg.client.get_users(username)
         username = "@" + usrdata.username
-        if text is None: text = msg.reply_to_message.text
-    await msg.err(text) # debug
+        if not text:
+            text = msg.reply_to_message.text
     if not username:
         await msg.err("`input username not found!`")
         return
     elif not text:
         await msg.err("`input text not found!`")
-        await msg.err(text) # debug
         return
     await msg.edit("```Creating a Tweet Sticker 😏```")
     await _tweets(msg, text, username)
