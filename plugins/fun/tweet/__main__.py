@@ -114,6 +114,7 @@ async def tweet(msg: Message):
     if isinstance(username, int):
         usrdata = await msg.client.get_users(username)
         username = "@" + usrdata.username
+        if text is None: text = msg.reply_to_message.text
     await msg.err(text) # debug
     if not username:
         await msg.err("`input username not found!`")
